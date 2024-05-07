@@ -1,6 +1,8 @@
 package hu.vadavar.rija;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,8 +10,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,5 +26,16 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        if (mAuth.getCurrentUser() == null) {
+            Log.d(TAG, "onCreate: User is not logged in");
+            startActivity(new Intent(this, LoginActivity.class));
+        } else {
+            Log.d(TAG, "onCreate: User is logged in");
+            Log.v(TAG, "onCreate: user id: " + mAuth.getCurrentUser().getUid() +
+                    " email: " + mAuth.getCurrentUser().getEmail());
+            startActivity(new Intent(this, HomeActivity.class));
+        }
+
     }
 }

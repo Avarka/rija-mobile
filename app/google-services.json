@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "836445688645",
+    "project_id": "rija-webkeret-202324",
+    "storage_bucket": "rija-webkeret-202324.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:836445688645:android:f91be9377873415e0e242c",
+        "android_client_info": {
+          "package_name": "hu.vadavar.rija"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwk_LhzIoqmXE_XwczOzQwwxRQb1EovvI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
