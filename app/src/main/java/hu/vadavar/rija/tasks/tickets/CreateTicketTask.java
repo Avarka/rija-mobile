@@ -20,11 +20,11 @@ public class CreateTicketTask extends AsyncTask<Ticket, Void, Void> {
             ticketData.put("id", ticket.getId());
             ticketData.put("title", ticket.getTitle());
             ticketData.put("description", ticket.getDescription());
-            ticketData.put("status", ticket.getStatusId());
+            ticketData.put("status", ticket.getStatus());
             ticketData.put("assignee", ticket.getAssigneeId());
             ticketData.put("reporter", ticket.getReporterId());
-            ticketData.put("createdAt", ticket.getCreatedAt());
-            ticketData.put("updatedAt", ticket.getUpdatedAt());
+            ticketData.put("createdAt", ticket.getCreated());
+            ticketData.put("updatedAt", ticket.getUpdated());
             ticketData.put("comments", ticket.getComments());
 
             db.collection("Teams")

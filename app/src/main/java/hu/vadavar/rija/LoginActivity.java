@@ -40,7 +40,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void signIn(String email, String password) {
-        //log email and password
         Log.d(TAG, "signIn: " + email + " password: " + password);
 
         mAuth.signInWithEmailAndPassword(email, password)

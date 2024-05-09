@@ -1,17 +1,17 @@
 package hu.vadavar.rija.models.teams;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class Team {
     private String id;
     private String name;
-    private String[] memberIds;
-    private String[] boardIds;
+    private List<String> memberIds;
+    private List<String> boardIds;
 
     public Team() {}
 
-    public Team(String id, String name, String[] memberIds, String[] boardIds) {
+    public Team(String id, String name, List<String> memberIds, List<String> boardIds) {
         this.id = id;
         this.name = name;
         this.memberIds = memberIds;
@@ -43,20 +43,20 @@ public class Team {
         return this;
     }
 
-    public String[] getMemberIds() {
+    public List<String> getMemberIds() {
         return memberIds;
     }
 
-    public Team setMemberIds(String[] memberIds) {
+    public Team setMemberIds(List<String> memberIds) {
         this.memberIds = memberIds;
         return this;
     }
 
-    public String[] getBoardIds() {
+    public List<String> getBoardIds() {
         return boardIds;
     }
 
-    public Team setBoardIds(String[] boardIds) {
+    public Team setBoardIds(List<String> boardIds) {
         this.boardIds = boardIds;
         return this;
     }
@@ -66,14 +66,11 @@ public class Team {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Team team = (Team) o;
-        return Objects.equals(id, team.id) && Objects.equals(name, team.name) && Arrays.equals(memberIds, team.memberIds) && Arrays.equals(boardIds, team.boardIds);
+        return Objects.equals(id, team.id) && Objects.equals(name, team.name) && Objects.equals(memberIds, team.memberIds) && Objects.equals(boardIds, team.boardIds);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, name);
-        result = 31 * result + Arrays.hashCode(memberIds);
-        result = 31 * result + Arrays.hashCode(boardIds);
-        return result;
+        return Objects.hash(id, name, memberIds, boardIds);
     }
 }

@@ -22,7 +22,7 @@ public class BoardService {
         boardProps.put("name", board.getName());
         boardProps.put("team", board.getTeam());
         boardProps.put("statuses", board.getStatuses());
-        boardProps.put("tickets", board.getTicketIds());
+        boardProps.put("tickets", board.getTickets());
 
         return db.collection(COLLECTION)
                 .add(boardProps);
@@ -34,7 +34,7 @@ public class BoardService {
         boardProps.put("name", board.getName());
         boardProps.put("team", board.getTeam());
         boardProps.put("statuses", board.getStatuses());
-        boardProps.put("tickets", board.getTicketIds());
+        boardProps.put("tickets", board.getTickets());
 
         return db.collection(COLLECTION)
                 .document(board.getId())
@@ -72,6 +72,21 @@ public class BoardService {
                     } else {
                         return null;
                     }
+                });
+    }
+
+    public void removeTicketFromBoard(String ticketId) {
+        db.collection(COLLECTION)
+                .whereArrayContains("tickets", ticketId)
+                .get()
+                .continueWith(task -> {
+                    DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                    if (document.exists()) {
+                        Board board = document.toObject(Board.class);
+                        board.getTickets().remove(ticketId);
+                        updateBoard(board);
+                    }
+                    return null;
                 });
     }
 }

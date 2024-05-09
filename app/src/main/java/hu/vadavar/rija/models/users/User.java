@@ -1,16 +1,17 @@
 package hu.vadavar.rija.models.users;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 public class User {
     private String id;
     private String username; //displayname
     private String email;
-    private String[] teamIds;
+    private List<String> teamIds;
 
     public User() {}
 
-    public User(String id, String username, String email, String[] teamIds) {
+    public User(String id, String username, String email, List<String> teamIds) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -51,11 +52,11 @@ public class User {
         return this;
     }
 
-    public String[] getTeamIds() {
+    public List<String> getTeamIds() {
         return teamIds;
     }
 
-    public User setTeamIds(String[] teamIds) {
+    public User setTeamIds(List<String> teamIds) {
         this.teamIds = teamIds;
         return this;
     }
@@ -65,13 +66,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(email, user.email) && Arrays.equals(teamIds, user.teamIds);
+        return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(email, user.email) && Objects.equals(teamIds, user.teamIds);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, username, email);
-        result = 31 * result + Arrays.hashCode(teamIds);
-        return result;
+        return Objects.hash(id, username, email, teamIds);
     }
 }

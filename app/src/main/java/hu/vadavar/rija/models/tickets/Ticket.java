@@ -1,7 +1,7 @@
 package hu.vadavar.rija.models.tickets;
 
-import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import hu.vadavar.rija.models.Comment;
@@ -11,24 +11,24 @@ public class Ticket {
     private String id;
     private String title;
     private String description;
-    private Status statusId;
-    private String assigneeId;
-    private String reporterId;
-    private Date createdAt;
-    private Date updatedAt;
-    private Comment[] comments;
+    private Status status;
+    private String assignee;
+    private String reporter;
+    private Date created;
+    private Date updated;
+    private List<Comment> comments;
 
     public Ticket() {}
 
-    public Ticket(String id, String title, String description, Status statusId, String assigneeId, String reporterId, Date createdAt, Date updatedAt, Comment[] comments) {
+    public Ticket(String id, String title, String description, Status status, String assignee, String reporter, Date created, Date updated, List<Comment> comments) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.statusId = statusId;
-        this.assigneeId = assigneeId;
-        this.reporterId = reporterId;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.status = status;
+        this.assignee = assignee;
+        this.reporter = reporter;
+        this.created = created;
+        this.updated = updated;
         this.comments = comments;
     }
 
@@ -36,11 +36,11 @@ public class Ticket {
         this.id = ticket.id;
         this.title = ticket.title;
         this.description = ticket.description;
-        this.statusId = ticket.statusId;
-        this.assigneeId = ticket.assigneeId;
-        this.reporterId = ticket.reporterId;
-        this.createdAt = ticket.createdAt;
-        this.updatedAt = ticket.updatedAt;
+        this.status = ticket.status;
+        this.assignee = ticket.assignee;
+        this.reporter = ticket.reporter;
+        this.created = ticket.created;
+        this.updated = ticket.updated;
         this.comments = ticket.comments;
     }
 
@@ -71,58 +71,72 @@ public class Ticket {
         return this;
     }
 
-    public Status getStatusId() {
-        return statusId;
+    public Status getStatus() {
+        return status;
     }
 
-    public Ticket setStatusId(Status statusId) {
-        this.statusId = statusId;
+    public Ticket setStatus(Status status) {
+        this.status = status;
         return this;
     }
 
     public String getAssigneeId() {
-        return assigneeId;
+        return assignee;
     }
 
-    public Ticket setAssigneeId(String assigneeId) {
-        this.assigneeId = assigneeId;
+    public Ticket setAssignee(String assignee) {
+        this.assignee = assignee;
         return this;
     }
 
     public String getReporterId() {
-        return reporterId;
+        return reporter;
     }
 
-    public Ticket setReporterId(String reporterId) {
-        this.reporterId = reporterId;
+    public Ticket setReporter(String reporter) {
+        this.reporter = reporter;
         return this;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public Date getCreated() {
+        return created;
     }
 
-    public Ticket setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    public Ticket setCreated(Date created) {
+        this.created = created;
         return this;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
+    public Date getUpdated() {
+        return updated;
     }
 
-    public Ticket setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
+    public Ticket setUpdated(Date updated) {
+        this.updated = updated;
         return this;
     }
 
-    public Comment[] getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 
-    public Ticket setComments(Comment[] comments) {
+    public Ticket setComments(List<Comment> comments) {
         this.comments = comments;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", statusId=" + status +
+                ", assignee='" + assignee + '\'' +
+                ", reporter='" + reporter + '\'' +
+                ", created=" + created +
+                ", updated=" + updated +
+                '}';
     }
 
     @Override
@@ -130,13 +144,11 @@ public class Ticket {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ticket ticket = (Ticket) o;
-        return Objects.equals(id, ticket.id) && Objects.equals(title, ticket.title) && Objects.equals(description, ticket.description) && Objects.equals(statusId, ticket.statusId) && Objects.equals(assigneeId, ticket.assigneeId) && Objects.equals(reporterId, ticket.reporterId) && Objects.equals(createdAt, ticket.createdAt) && Objects.equals(updatedAt, ticket.updatedAt) && Arrays.equals(comments, ticket.comments);
+        return Objects.equals(id, ticket.id) && Objects.equals(title, ticket.title) && Objects.equals(description, ticket.description) && Objects.equals(status, ticket.status) && Objects.equals(assignee, ticket.assignee) && Objects.equals(reporter, ticket.reporter) && Objects.equals(created, ticket.created) && Objects.equals(updated, ticket.updated) && Objects.equals(comments, ticket.comments);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, title, description, statusId, assigneeId, reporterId, createdAt, updatedAt);
-        result = 31 * result + Arrays.hashCode(comments);
-        return result;
+        return Objects.hash(id, title, description, status, assignee, reporter, created, updated, comments);
     }
 }

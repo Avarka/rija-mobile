@@ -1,6 +1,7 @@
 package hu.vadavar.rija.models.tickets;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import hu.vadavar.rija.models.Comment;
@@ -21,7 +22,7 @@ public class FullTicket extends Ticket {
         this.reporter = reporter;
     }
 
-    public FullTicket(String id, String title, String description, Status statusId, Date createdAt, Date updatedAt, Comment[] comments, User assignee, User reporter) {
+    public FullTicket(String id, String title, String description, Status statusId, Date createdAt, Date updatedAt, List<Comment> comments, User assignee, User reporter) {
         super(id, title, description, statusId, assignee.getId(), reporter.getId(), createdAt, updatedAt, comments);
         this.assignee = assignee;
         this.reporter = reporter;

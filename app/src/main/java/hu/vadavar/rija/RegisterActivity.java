@@ -15,6 +15,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Arrays;
+import java.util.List;
 
 import hu.vadavar.rija.models.Status;
 import hu.vadavar.rija.models.boards.Board;
@@ -80,14 +81,14 @@ public class RegisterActivity extends AppCompatActivity {
                                         .setId(userId)
                                         .setEmail(email)
                                         .setUsername(username)
-                                        .setTeamIds(teamId)
+                                        .setTeamIds(List.of(teamId))
                         );
                         new CreateTeamTask().execute(
                                 new Team()
                                         .setId(teamId[0])
                                         .setName("Személyes")
-                                        .setMemberIds(new String[]{userId})
-                                        .setBoardIds(boardId)
+                                        .setMemberIds(List.of(new String[]{userId}))
+                                        .setBoardIds(List.of(boardId))
                         );
                         Toast.makeText(RegisterActivity.this, R.string.register_success, Toast.LENGTH_SHORT).show();
                         finish();

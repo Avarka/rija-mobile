@@ -6,6 +6,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 
@@ -36,9 +37,11 @@ public class TeamService {
 
     public Task<List<Team>> getTeamForUser(String userId) {
         Log.v(TAG, "----- getTeamForUser: userId: " + userId);
-        return db.collection(COLLECTION_NAME)
+        var teamsTask = db.collection(COLLECTION_NAME)
                 .whereArrayContains("members", userId)
-                .get()
+                .get();
+
+        return teamsTask
                 .continueWith(task -> {
                             Log.v(TAG, "----- getTeamForUser: task: " + task.getResult().toObjects(Team.class));
                             if (!task.isSuccessful()) {

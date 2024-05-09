@@ -1,33 +1,34 @@
 package hu.vadavar.rija.models.boards;
 
-import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import hu.vadavar.rija.models.Status;
 import hu.vadavar.rija.models.tickets.Ticket;
 
 public class FullBoard extends Board {
-    private Ticket[] tickets;
+    private List<Ticket> fTickets;
 
     public FullBoard() {
         super();
     }
 
-    public FullBoard(Board board, Ticket[] tickets) {
+    public FullBoard(Board board, List<Ticket> fTickets) {
         super(board);
-        this.tickets = tickets;
+        this.fTickets = fTickets;
     }
 
-    public FullBoard(String id, String team, String name, Status[] statuses, Ticket[] tickets) {
-        super(id, team, name, statuses, Arrays.stream(tickets).map(Ticket::getId).toArray(String[]::new));
-        this.tickets = tickets;
+    public FullBoard(String id, String team, String name, List<Status> statuses, List<Ticket> fTickets) {
+        super(id, team, name, statuses, fTickets.stream().map(Ticket::getId).collect(Collectors.toList()));
+        this.fTickets = fTickets;
     }
 
-    public Ticket[] getTickets() {
-        return tickets;
+    public List<Ticket> getfTickets() {
+        return fTickets;
     }
 
-    public FullBoard setTickets(Ticket[] tickets) {
-        this.tickets = tickets;
+    public FullBoard setfTickets(List<Ticket> fTickets) {
+        this.fTickets = fTickets;
         return this;
     }
 
@@ -36,11 +37,11 @@ public class FullBoard extends Board {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FullBoard fullBoard = (FullBoard) o;
-        return Arrays.equals(tickets, fullBoard.tickets);
+        return fTickets.equals(fullBoard.fTickets);
     }
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(tickets);
+        return fTickets.hashCode();
     }
 }

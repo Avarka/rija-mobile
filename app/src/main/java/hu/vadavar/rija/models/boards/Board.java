@@ -1,6 +1,8 @@
 package hu.vadavar.rija.models.boards;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import hu.vadavar.rija.models.Status;
@@ -10,17 +12,17 @@ public class Board {
     private String id;
     private String team;
     private String name;
-    private Status[] statuses;
-    private String[] ticketIds;
+    private List<Status> statuses;
+    private List<String> tickets;
 
     public Board() {}
 
-    public Board(String id, String team, String name, Status[] statuses, String[] ticketIds) {
+    public Board(String id, String team, String name, List<Status> statuses, List<String> tickets) {
         this.id = id;
         this.team = team;
         this.name = name;
         this.statuses = statuses;
-        this.ticketIds = ticketIds;
+        this.tickets = tickets;
     }
 
     public Board(Board board) {
@@ -28,7 +30,7 @@ public class Board {
         this.team = board.team;
         this.name = board.name;
         this.statuses = board.statuses;
-        this.ticketIds = board.ticketIds;
+        this.tickets = board.tickets;
     }
 
     public String getId() {
@@ -58,21 +60,21 @@ public class Board {
         return this;
     }
 
-    public Status[] getStatuses() {
+    public List<Status> getStatuses() {
         return statuses;
     }
 
-    public Board setStatuses(Status[] statuses) {
+    public Board setStatuses(List<Status> statuses) {
         this.statuses = statuses;
         return this;
     }
 
-    public String[] getTicketIds() {
-        return ticketIds;
+    public List<String> getTickets() {
+        return tickets;
     }
 
-    public Board setTicketIds(String[] ticketIds) {
-        this.ticketIds = ticketIds;
+    public Board setTickets(List<String> tickets) {
+        this.tickets = tickets;
         return this;
     }
 
@@ -81,15 +83,23 @@ public class Board {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Board board = (Board) o;
-        return Objects.equals(id, board.id) && Objects.equals(team, board.team) && Objects.equals(name, board.name) && Arrays.equals(statuses, board.statuses) && Arrays.equals(ticketIds, board.ticketIds);
+        return Objects.equals(id, board.id) && Objects.equals(team, board.team) && Objects.equals(name, board.name) && Objects.equals(statuses, board.statuses) && Objects.equals(tickets, board.tickets);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, team, name);
-        result = 31 * result + Arrays.hashCode(statuses);
-        result = 31 * result + Arrays.hashCode(ticketIds);
-        return result;
+        return Objects.hash(id, team, name, statuses, tickets);
+    }
+
+    @Override
+    public String toString() {
+        return "Board{" +
+                "id='" + id + '\'' +
+                ", team='" + team + '\'' +
+                ", name='" + name + '\'' +
+                ", statuses=" + statuses +
+                ", tickets=" + tickets +
+                '}';
     }
 
     public static Board DEFAULT_BOARD(
@@ -100,12 +110,14 @@ public class Board {
         return new Board()
             .setId(boardId)
             .setName("Alapértelmezett tábla")
-            .setStatuses(new Status[] {
-                new Status(stateIds[0], "Új", "#FF0000", new String[]{}, new String[]{stateIds[1]}),
-                new Status(stateIds[1], "Folyamatban", "#00FF00", new String[]{stateIds[0]}, new String[]{stateIds[2]}),
-                new Status(stateIds[2], "Kész", "#0000FF", new String[]{stateIds[1]}, new String[]{})
-            })
+            .setStatuses(
+                Arrays.asList(
+                    new Status(stateIds[0], "Új", "#FF0000", new ArrayList<>(), List.of(new String[]{stateIds[1]})),
+                    new Status(stateIds[1], "Folyamatban", "#00FF00", List.of(new String[]{stateIds[0]}), List.of(new String[]{stateIds[2]})),
+                    new Status(stateIds[2], "Kész", "#0000FF", List.of(new String[]{stateIds[1]}), new ArrayList<>())
+                )
+            )
             .setTeam(teamId)
-            .setTicketIds(new String[]{});
+            .setTickets(new ArrayList<>());
     }
 }

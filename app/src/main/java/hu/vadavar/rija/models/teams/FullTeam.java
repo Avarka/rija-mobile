@@ -1,44 +1,46 @@
 package hu.vadavar.rija.models.teams;
 
-import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import hu.vadavar.rija.models.boards.FullBoard;
 import hu.vadavar.rija.models.users.User;
 
 public class FullTeam extends Team {
-    private User[] members;
-    private FullBoard[] boards;
+    private List<User> members;
+    private List<FullBoard> boards;
 
     public FullTeam() {
         super();
     }
 
-    public FullTeam(String id, String name, User[] members, FullBoard[] boards) {
-        super(id, name, Arrays.stream(members).map(User::getId).toArray(String[]::new), Arrays.stream(boards).map(FullBoard::getId).toArray(String[]::new));
+    public FullTeam(String id, String name, List<User> members, List<FullBoard> boards) {
+        super(id, name, members.stream().map(User::getId).collect(Collectors.toList()), boards.stream().map(FullBoard::getId).collect(Collectors.toList()));
         this.members = members;
         this.boards = boards;
     }
 
-    public FullTeam(Team team, User[] members, FullBoard[] boards) {
+    public FullTeam(Team team, List<User> members, List<FullBoard> boards) {
         super(team);
         this.members = members;
         this.boards = boards;
     }
 
-    public User[] getMembers() {
+    public List<User> getMembers() {
         return members;
     }
 
-    public FullTeam setMembers(User[] members) {
+    public FullTeam setMembers(List<User> members) {
         this.members = members;
         return this;
     }
 
-    public FullBoard[] getBoards() {
+    public List<FullBoard> getBoards() {
         return boards;
     }
 
-    public FullTeam setBoards(FullBoard[] boards) {
+    public FullTeam setBoards(List<FullBoard> boards) {
         this.boards = boards;
         return this;
     }
@@ -49,14 +51,11 @@ public class FullTeam extends Team {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         FullTeam fullTeam = (FullTeam) o;
-        return Arrays.equals(members, fullTeam.members) && Arrays.equals(boards, fullTeam.boards);
+        return Objects.equals(members, fullTeam.members) && Objects.equals(boards, fullTeam.boards);
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + Arrays.hashCode(members);
-        result = 31 * result + Arrays.hashCode(boards);
-        return result;
+        return Objects.hash(super.hashCode(), members, boards);
     }
 }

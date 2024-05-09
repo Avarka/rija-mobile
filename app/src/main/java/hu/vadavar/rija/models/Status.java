@@ -1,15 +1,17 @@
 package hu.vadavar.rija.models;
 
+import java.util.List;
+
 public class Status {
     private String id;
     private String name;
     private String color;
-    private String[] previousStatusIds;
-    private String[] nextStatusIds;
+    private List<String> previousStatusIds;
+    private List<String> nextStatusIds;
 
     public Status() {}
 
-    public Status(String id, String name, String color, String[] previousStatusIds, String[] nextStatusIds) {
+    public Status(String id, String name, String color, List<String> previousStatusIds, List<String> nextStatusIds) {
         this.id = id;
         this.name = name;
         this.color = color;
@@ -52,20 +54,20 @@ public class Status {
         return this;
     }
 
-    public String[] getPreviousStatusIds() {
+    public List<String> getPreviousStatusIds() {
         return previousStatusIds;
     }
 
-    public Status setPreviousStatusIds(String[] previousStatusIds) {
+    public Status setPreviousStatusIds(List<String> previousStatusIds) {
         this.previousStatusIds = previousStatusIds;
         return this;
     }
 
-    public String[] getNextStatusIds() {
+    public List<String> getNextStatusIds() {
         return nextStatusIds;
     }
 
-    public Status setNextStatusIds(String[] nextStatusIds) {
+    public Status setNextStatusIds(List<String> nextStatusIds) {
         this.nextStatusIds = nextStatusIds;
         return this;
     }
