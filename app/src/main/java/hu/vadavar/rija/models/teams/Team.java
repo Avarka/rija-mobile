@@ -6,23 +6,23 @@ import java.util.Objects;
 public class Team {
     private String id;
     private String name;
-    private List<String> memberIds;
-    private List<String> boardIds;
+    private List<String> members;
+    private List<String> boards;
 
     public Team() {}
 
-    public Team(String id, String name, List<String> memberIds, List<String> boardIds) {
+    public Team(String id, String name, List<String> members, List<String> boards) {
         this.id = id;
         this.name = name;
-        this.memberIds = memberIds;
-        this.boardIds = boardIds;
+        this.members = members;
+        this.boards = boards;
     }
 
     public Team(Team team) {
         this.id = team.id;
         this.name = team.name;
-        this.memberIds = team.memberIds;
-        this.boardIds = team.boardIds;
+        this.members = team.members;
+        this.boards = team.boards;
     }
 
     public String getId() {
@@ -43,21 +43,21 @@ public class Team {
         return this;
     }
 
-    public List<String> getMemberIds() {
-        return memberIds;
+    public List<String> getMembers() {
+        return members;
     }
 
-    public Team setMemberIds(List<String> memberIds) {
-        this.memberIds = memberIds;
+    public Team setMembers(List<String> members) {
+        this.members = members;
         return this;
     }
 
-    public List<String> getBoardIds() {
-        return boardIds;
+    public List<String> getBoards() {
+        return boards;
     }
 
-    public Team setBoardIds(List<String> boardIds) {
-        this.boardIds = boardIds;
+    public Team setBoards(List<String> boards) {
+        this.boards = boards;
         return this;
     }
 
@@ -66,11 +66,11 @@ public class Team {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Team team = (Team) o;
-        return Objects.equals(id, team.id) && Objects.equals(name, team.name) && Objects.equals(memberIds, team.memberIds) && Objects.equals(boardIds, team.boardIds);
+        return Objects.equals(id, team.id) && Objects.equals(name, team.name) && Objects.equals(members, team.members) && Objects.equals(boards, team.boards);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, memberIds, boardIds);
+        return Objects.hash(id, name, members, boards);
     }
 }

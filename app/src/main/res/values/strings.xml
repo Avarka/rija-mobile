@@ -16,4 +16,9 @@
     <string name="register_success">Sikeres regisztráció!</string>
     <string name="login_success">Sikeres bejelentkezés!</string>
     <string name="logout">Kijelentkezés</string>
+    <string name="add_task">Feladat hozzáadása</string>
+    <string name="title_activity_add_ticket">AddTicketActivity</string>
+    <string name="title">Cím</string>
+    <string name="description">Leírás</string>
+    <string name="none">Ez a terület üres. :D</string>
 </resources>

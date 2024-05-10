@@ -26,16 +26,19 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         if (mAuth.getCurrentUser() == null) {
-            Log.d(TAG, "onCreate: User is not logged in");
+            Log.d(TAG, "onStart: User is not logged in");
             startActivity(new Intent(this, LoginActivity.class));
         } else {
-            Log.d(TAG, "onCreate: User is logged in");
-            Log.v(TAG, "onCreate: user id: " + mAuth.getCurrentUser().getUid() +
+            Log.d(TAG, "onStart: User is logged in");
+            Log.v(TAG, "onStart: user id: " + mAuth.getCurrentUser().getUid() +
                     " email: " + mAuth.getCurrentUser().getEmail());
             startActivity(new Intent(this, HomeActivity.class));
         }
-
     }
 }

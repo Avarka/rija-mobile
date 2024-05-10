@@ -11,10 +11,9 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import hu.vadavar.rija.models.Status;
@@ -43,6 +42,9 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
         emailField = findViewById(R.id.email);
         passwordField = findViewById(R.id.password);
         passwordConfirmField = findViewById(R.id.confirm_password);
@@ -65,7 +67,6 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        // Itt generálódik egy ID a csapatnak, amit később létrehozok.
                         String[] teamId = {db.collection("Teams").document().getId()};
                         String[] boardId = {db.collection("Boards").document().getId()};
                         String[] statusIds = {
@@ -74,28 +75,76 @@ public class RegisterActivity extends AppCompatActivity {
                                 db.collection("Statuses").document().getId()
                         };
 
+                        Status status1 = new Status()
+                                .setId(statusIds[0])
+                                .setName("Új")
+                                .setColor("#FF0000")
+                                .setNextStatusIds(new ArrayList<>())
+                                .setPreviousStatusIds(List.of(statusIds[1]));
+                        Status status2 = new Status()
+                                .setId(statusIds[1])
+                                .setName("Folyamatban")
+                                .setColor("#00FF00")
+                                .setNextStatusIds(List.of(statusIds[2]))
+                                .setPreviousStatusIds(List.of(statusIds[0]));
+                        Status status3 = new Status()
+                                .setId(statusIds[2])
+                                .setName("Kész")
+                                .setColor("#0000FF")
+                                .setNextStatusIds(new ArrayList<>())
+                                .setPreviousStatusIds(List.of(statusIds[1]));
+
                         String userId = mAuth.getCurrentUser().getUid();
 
-                        new CreateUserTask().execute(
+                        new CreateUserTask(success -> {
+                            if (!success) {
+                                showRegisterFailed(R.string.register_failed);
+                                return;
+                            }
+
+                            new CreateTeamTask(success1 -> {
+                                if (!success1) {
+                                    showRegisterFailed(R.string.register_failed);
+                                    return;
+                                }
+
+                                new CreateBoardTask(success2 -> {
+                                    if (!success2) {
+                                        showRegisterFailed(R.string.register_failed);
+                                        return;
+                                    }
+                                    Toast.makeText(RegisterActivity.this, R.string.register_success, Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }).execute(
+                                        new Board()
+                                                .setId(boardId[0])
+                                                .setName("Személyes")
+                                                .setTeam(teamId[0])
+                                                .setTickets(new ArrayList<>())
+                                                .setStatuses(List.of(status1, status2, status3))
+                                );
+                            }).execute(
+                                    new Team()
+                                            .setId(teamId[0])
+                                            .setName("Személyes")
+                                            .setMembers(List.of(new String[]{userId}))
+                                            .setBoards(List.of(boardId))
+                            );
+                        }).execute(
                                 new User()
                                         .setId(userId)
                                         .setEmail(email)
                                         .setUsername(username)
                                         .setTeamIds(List.of(teamId))
                         );
-                        new CreateTeamTask().execute(
-                                new Team()
-                                        .setId(teamId[0])
-                                        .setName("Személyes")
-                                        .setMemberIds(List.of(new String[]{userId}))
-                                        .setBoardIds(List.of(boardId))
-                        );
-                        Toast.makeText(RegisterActivity.this, R.string.register_success, Toast.LENGTH_SHORT).show();
-                        finish();
                     } else {
                         showRegisterFailed(R.string.register_failed);
                     }
-                });
+                })
+        .addOnFailureListener(e -> {
+            Log.e(TAG, "register: ", e);
+            showRegisterFailed(R.string.register_failed);
+        });
     }
 
     private void showRegisterFailed(@StringRes Integer errorString) {

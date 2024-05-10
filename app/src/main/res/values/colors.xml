@@ -58,4 +58,5 @@
     <color name="rose_A700">#ffffff</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
+    <color name="red">#ff0000</color>
 </resources>

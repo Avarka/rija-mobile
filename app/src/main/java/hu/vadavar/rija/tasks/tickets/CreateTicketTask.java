@@ -1,36 +1,49 @@
 package hu.vadavar.rija.tasks.tickets;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
+import hu.vadavar.rija.models.boards.Board;
 import hu.vadavar.rija.models.tickets.Ticket;
+import hu.vadavar.rija.services.TicketService;
 
-public class CreateTicketTask extends AsyncTask<Ticket, Void, Void> {
+public class CreateTicketTask extends AsyncTask<Ticket, Void, Boolean> {
     private static final String TAG = "CreateTicketTask";
-    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final TicketService ticketService = new TicketService();
+    Board board;
+    Consumer<Boolean> callback;
+
+    public CreateTicketTask(Consumer<Boolean> callback, Board board) {
+        this.callback = callback;
+        this.board = board;
+    }
 
     @Override
-    protected Void doInBackground(Ticket... tickets) {
-        for (Ticket ticket : tickets) {
-            Map<String, Object> ticketData = new HashMap<>();
-            ticketData.put("id", ticket.getId());
-            ticketData.put("title", ticket.getTitle());
-            ticketData.put("description", ticket.getDescription());
-            ticketData.put("status", ticket.getStatus());
-            ticketData.put("assignee", ticket.getAssigneeId());
-            ticketData.put("reporter", ticket.getReporterId());
-            ticketData.put("createdAt", ticket.getCreated());
-            ticketData.put("updatedAt", ticket.getUpdated());
-            ticketData.put("comments", ticket.getComments());
+    protected Boolean doInBackground(Ticket... tickets) {
+        Ticket ticket = tickets[0];
+        Task task = ticketService.createTicket(ticket, board);
 
-            db.collection("Teams")
-                    .document(ticket.getId())
-                    .set(ticketData);
+        while (!task.isComplete()) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                Log.d(TAG, "doInBackground: ", e);
+            }
         }
-        return null;
+
+        return task.isSuccessful();
+    }
+
+    @Override
+    protected void onPostExecute(Boolean success) {
+        super.onPostExecute(success);
+        callback.accept(success);
     }
 }

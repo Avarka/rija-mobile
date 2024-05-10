@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,27 +7,48 @@
     android:orientation="vertical"
     >
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/menu_toolbar"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/priamry_500"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="@style/ToolbarStyle"
-        app:popupTheme="@style/Base.Theme.RIJA"
-        app:title="asd" />
+        android:orientation="vertical">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/menu_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/priamry_500"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ToolbarStyle"
+            app:popupTheme="@style/Base.Theme.RIJA"
+            app:title="asd" />
 
-    <Spinner
-        android:id="@+id/board_spinner"
-        android:layout_width="match_parent"
+        <Spinner
+            android:id="@+id/board_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/board_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            />
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_task_fab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
         android:layout_margin="20dp"
-        />
+        android:clickable="true"
+        android:contentDescription="@string/add_task"
+        app:backgroundTint="@color/accent_400"
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/board_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        />
-</LinearLayout>
+        app:rippleColor="@color/accent_700"
+        app:srcCompat="@drawable/baseline_add_task_24" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

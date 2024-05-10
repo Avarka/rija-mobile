@@ -54,18 +54,6 @@ public class TeamService {
                 );
     }
 
-    public Task<Void> updateTeam(Team team) {
-        return db.collection(COLLECTION_NAME)
-                .document(team.getId())
-                .set(team);
-    }
-
-    public Task<Void> deleteTeam(Team team) {
-        return db.collection(COLLECTION_NAME)
-                .document(team.getId())
-                .delete();
-    }
-
     public Task<DocumentReference> addTeam(Team team) {
         return db.collection(COLLECTION_NAME)
                 .add(team);

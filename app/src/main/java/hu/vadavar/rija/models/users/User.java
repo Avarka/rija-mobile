@@ -1,9 +1,14 @@
 package hu.vadavar.rija.models.users;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-public class User {
+public class User implements Parcelable {
     private String id;
     private String username; //displayname
     private String email;
@@ -24,6 +29,25 @@ public class User {
         this.email = user.email;
         this.teamIds = user.teamIds;
     }
+
+    protected User(Parcel in) {
+        id = in.readString();
+        username = in.readString();
+        email = in.readString();
+        teamIds = in.createStringArrayList();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -72,5 +96,18 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(id, username, email, teamIds);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(username);
+        dest.writeString(email);
+        dest.writeStringList(teamIds);
     }
 }

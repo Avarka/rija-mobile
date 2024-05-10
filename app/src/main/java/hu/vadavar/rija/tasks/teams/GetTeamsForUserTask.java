@@ -37,7 +37,7 @@ public class GetTeamsForUserTask extends AsyncTask<Void, Void, List<Team>> {
 
         while (!task.isComplete()) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(10);
                 Log.d(TAG, "------- doInBackground: waiting for task to complete");
             } catch (InterruptedException e) {
                 Log.d(TAG, "doInBackground: ", e);

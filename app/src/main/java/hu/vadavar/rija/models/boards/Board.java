@@ -1,5 +1,10 @@
 package hu.vadavar.rija.models.boards;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,7 +12,7 @@ import java.util.Objects;
 
 import hu.vadavar.rija.models.Status;
 
-public class Board {
+public class Board implements Parcelable {
 
     private String id;
     private String team;
@@ -32,6 +37,26 @@ public class Board {
         this.statuses = board.statuses;
         this.tickets = board.tickets;
     }
+
+    protected Board(Parcel in) {
+        id = in.readString();
+        team = in.readString();
+        name = in.readString();
+        statuses = in.createTypedArrayList(Status.CREATOR);
+        tickets = in.createStringArrayList();
+    }
+
+    public static final Creator<Board> CREATOR = new Creator<Board>() {
+        @Override
+        public Board createFromParcel(Parcel in) {
+            return new Board(in);
+        }
+
+        @Override
+        public Board[] newArray(int size) {
+            return new Board[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -119,5 +144,19 @@ public class Board {
             )
             .setTeam(teamId)
             .setTickets(new ArrayList<>());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.team);
+        dest.writeString(this.name);
+        dest.writeTypedList(this.statuses);
+        dest.writeStringList(this.tickets);
     }
 }

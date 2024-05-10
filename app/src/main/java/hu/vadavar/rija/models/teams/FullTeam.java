@@ -8,40 +8,40 @@ import hu.vadavar.rija.models.boards.FullBoard;
 import hu.vadavar.rija.models.users.User;
 
 public class FullTeam extends Team {
-    private List<User> members;
-    private List<FullBoard> boards;
+    private List<User> fMembers;
+    private List<FullBoard> fBoards;
 
     public FullTeam() {
         super();
     }
 
-    public FullTeam(String id, String name, List<User> members, List<FullBoard> boards) {
-        super(id, name, members.stream().map(User::getId).collect(Collectors.toList()), boards.stream().map(FullBoard::getId).collect(Collectors.toList()));
-        this.members = members;
-        this.boards = boards;
+    public FullTeam(String id, String name, List<User> fMembers, List<FullBoard> fBoards) {
+        super(id, name, fMembers.stream().map(User::getId).collect(Collectors.toList()), fBoards.stream().map(FullBoard::getId).collect(Collectors.toList()));
+        this.fMembers = fMembers;
+        this.fBoards = fBoards;
     }
 
-    public FullTeam(Team team, List<User> members, List<FullBoard> boards) {
+    public FullTeam(Team team, List<User> fMembers, List<FullBoard> fBoards) {
         super(team);
-        this.members = members;
-        this.boards = boards;
+        this.fMembers = fMembers;
+        this.fBoards = fBoards;
     }
 
-    public List<User> getMembers() {
-        return members;
+    public List<User> getfMembers() {
+        return fMembers;
     }
 
-    public FullTeam setMembers(List<User> members) {
-        this.members = members;
+    public FullTeam setfMembers(List<User> fMembers) {
+        this.fMembers = fMembers;
         return this;
     }
 
-    public List<FullBoard> getBoards() {
-        return boards;
+    public List<FullBoard> getfBoards() {
+        return fBoards;
     }
 
-    public FullTeam setBoards(List<FullBoard> boards) {
-        this.boards = boards;
+    public FullTeam setfBoards(List<FullBoard> fBoards) {
+        this.fBoards = fBoards;
         return this;
     }
 
@@ -51,11 +51,11 @@ public class FullTeam extends Team {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         FullTeam fullTeam = (FullTeam) o;
-        return Objects.equals(members, fullTeam.members) && Objects.equals(boards, fullTeam.boards);
+        return Objects.equals(fMembers, fullTeam.fMembers) && Objects.equals(fBoards, fullTeam.fBoards);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), members, boards);
+        return Objects.hash(super.hashCode(), fMembers, fBoards);
     }
 }

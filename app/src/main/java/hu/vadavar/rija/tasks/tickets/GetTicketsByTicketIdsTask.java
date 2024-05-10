@@ -33,7 +33,7 @@ public class GetTicketsByTicketIdsTask extends AsyncTask<List<String>, Void, Lis
 
         while (!task.isComplete()) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 Log.d(TAG, "doInBackground: ", e);
             }

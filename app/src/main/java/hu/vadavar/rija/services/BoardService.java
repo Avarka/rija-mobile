@@ -28,7 +28,7 @@ public class BoardService {
                 .add(boardProps);
     }
 
-    public Task<Void> updateBoard(Board board) {
+    public void updateBoard(Board board) {
         Map<String, Object> boardProps = new HashMap<>();
         boardProps.put("id", board.getId());
         boardProps.put("name", board.getName());
@@ -36,15 +36,9 @@ public class BoardService {
         boardProps.put("statuses", board.getStatuses());
         boardProps.put("tickets", board.getTickets());
 
-        return db.collection(COLLECTION)
+        db.collection(COLLECTION)
                 .document(board.getId())
                 .update(boardProps);
-    }
-
-    public Task<Void> deleteBoard(Board board) {
-        return db.collection(COLLECTION)
-                .document(board.getId())
-                .delete();
     }
 
     public Task<Board> getBoard(String boardId) {
@@ -84,6 +78,21 @@ public class BoardService {
                     if (document.exists()) {
                         Board board = document.toObject(Board.class);
                         board.getTickets().remove(ticketId);
+                        updateBoard(board);
+                    }
+                    return null;
+                });
+    }
+
+    public Task<Void> addTicketToBoard(String ticketId, String boardId) {
+        return db.collection(COLLECTION)
+                .document(boardId)
+                .get()
+                .continueWith(task -> {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Board board = document.toObject(Board.class);
+                        board.getTickets().add(ticketId);
                         updateBoard(board);
                     }
                     return null;

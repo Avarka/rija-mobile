@@ -30,7 +30,7 @@ public class GetBoardForTeamTask extends AsyncTask<Team, Void, Board> {
 
         while (!task.isComplete()) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 Log.d(TAG, "doInBackground: ", e);
             }

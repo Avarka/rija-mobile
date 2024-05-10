@@ -3,7 +3,7 @@
     <style name="Base.Theme.RIJA" parent="Theme.Material3.DayNight.NoActionBar">
 
     </style>
-    
+
     <style name="ToolbarStyle" parent="Base.Theme.RIJA">
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
